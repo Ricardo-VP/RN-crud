@@ -12,7 +12,7 @@ import {
 
 import globalStyles from '../styles/global';
 
-const NuevoCliente = () => {
+const NuevoCliente = ({navigation}) => {
   // campos formulario
   const [nombre, setNombre] = useState('');
   const [telefono, setTelefono] = useState('');
@@ -48,8 +48,13 @@ const NuevoCliente = () => {
     }
 
     // Redireccionar a la pantalla de clientes
+    navigation.navigate('Inicio');
 
     // Limpiar los campos
+    setNombre('');
+    setTelefono('');
+    setCorreo('');
+    setEmpresa('');
   };
 
   return (
