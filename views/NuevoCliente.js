@@ -1,5 +1,6 @@
+import axios from 'axios';
 import React, {useState} from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, Platform} from 'react-native';
 import {
   TextInput,
   Headline,
@@ -20,7 +21,7 @@ const NuevoCliente = () => {
 
   const [alerta, setAlerta] = useState(false);
 
-  const guardarCliente = () => {
+  const guardarCliente = async () => {
     // Validar campos
     if (nombre === '' || telefono === '' || correo === '' || empresa === '') {
       setAlerta(true);
@@ -36,6 +37,15 @@ const NuevoCliente = () => {
     };
 
     // Generar el cliente en la API
+    try {
+        if(Platform.OS === 'ios'){
+            await axios.post('http://localhost:3000/clientes', cliente);
+        }else {
+            await axios.post('http://10.0.2.2:3000/clientes', cliente);
+        }
+    } catch (error) {
+      console.log(error);        
+    }
 
     // Redireccionar a la pantalla de clientes
 
