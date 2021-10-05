@@ -20,7 +20,7 @@ const Inicio = ({navigation}) => {
         console.log(error);
       }
     };
-    if (consultarAPI) {
+    if (consultarAPI) { 
       obtenerClientesdeApi();
     }
   }, []);
@@ -37,9 +37,13 @@ const Inicio = ({navigation}) => {
       </Headline>
       <FlatList
         data={clientes}
-        keyExtractor={cliente => (cliente.id).toString()}
+        keyExtractor={cliente => cliente.id.toString()}
         renderItem={({item}) => (
-          <List.Item title={item.nombre} description={item.empresa} />
+          <List.Item
+            title={item.nombre}
+            description={item.empresa}
+            onPress={() => navigation.navigate('DetallesCliente', {cliente: item})}
+          />
         )}
       />
       <FAB
