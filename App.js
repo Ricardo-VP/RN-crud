@@ -13,11 +13,21 @@ import {
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
+import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
+ 
 import Inicio from './views/Inicio';
 import NuevoCliente from './views/NuevoCliente';
 import DetallesCliente from './views/DetallesCLiente';
 
 const Stack = createStackNavigator();
+
+// Definir el tema
+
+const theme = {
+  ...DefaultTheme,
+}
+
+console.log(theme)
 
 const App = () => {
  
