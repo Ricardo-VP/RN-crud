@@ -19,11 +19,11 @@ const Inicio = ({navigation}) => {
       } catch (error) {
         console.log(error);
       }
-    };
-    if (consultarAPI) { 
+    }
+    if (consultarAPI) {
       obtenerClientesdeApi();
     }
-  }, []);
+  }, [consultarAPI]);
 
   return (
     <View style={globalStyles.contenedor}>
@@ -42,7 +42,12 @@ const Inicio = ({navigation}) => {
           <List.Item
             title={item.nombre}
             description={item.empresa}
-            onPress={() => navigation.navigate('DetallesCliente', {cliente: item})}
+            onPress={() =>
+              navigation.navigate('DetallesCliente', {
+                cliente: item,
+                setConsultarAPI,
+              })
+            }
           />
         )}
       />

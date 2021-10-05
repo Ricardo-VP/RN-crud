@@ -4,7 +4,8 @@ import {Headline, Text, Button} from 'react-native-paper';
 import globalStyles from '../styles/global';
 import axios from 'axios';
 
-const DetallesCliente = ({route}) => {
+const DetallesCliente = ({route, navigation}) => {
+  const {setConsultarAPI} = route.params;
   const {nombre, telefono, correo, empresa, id} = route.params.cliente;
 
   const mostrarConfirmacion = () => {
@@ -25,6 +26,10 @@ const DetallesCliente = ({route}) => {
     } catch (error) {
       console.log(error);
     }
+    // Redireccionar al usuario a la pantalla de clientes
+    navigation.navigate('Inicio');
+    // Consultar la API
+    setConsultarAPI(true);
   };
 
   return (
