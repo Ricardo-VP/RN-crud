@@ -2,9 +2,10 @@ import React from 'react';
 import {View, StyleSheet, Alert} from 'react-native';
 import {Headline, Text, Button} from 'react-native-paper';
 import globalStyles from '../styles/global';
+import axios from 'axios';
 
 const DetallesCliente = ({route}) => {
-  const {nombre, telefono, correo, empresa,} = route.params.cliente;
+  const {nombre, telefono, correo, empresa, id} = route.params.cliente;
 
   const mostrarConfirmacion = () => {
     Alert.alert(
@@ -17,8 +18,13 @@ const DetallesCliente = ({route}) => {
     );
   };
 
-  const eliminarCliente = () => {
-    console.log('eliminando...');
+  const eliminarCliente = async () => {
+    const url = `http://10.0.2.2:3000/clientes/${id}`;
+    try {
+        await axios.delete(url);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
