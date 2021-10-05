@@ -12,7 +12,8 @@ import {
 
 import globalStyles from '../styles/global';
 
-const NuevoCliente = ({navigation}) => {
+const NuevoCliente = ({navigation, route}) => {
+  const {setConsultarAPI} = route.params;
   // campos formulario
   const [nombre, setNombre] = useState('');
   const [telefono, setTelefono] = useState('');
@@ -55,6 +56,9 @@ const NuevoCliente = ({navigation}) => {
     setTelefono('');
     setCorreo('');
     setEmpresa('');
+
+    // Consultar la API
+    setConsultarAPI(true);
   };
 
   return (
