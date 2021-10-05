@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, StyleSheet, Platform} from 'react-native';
 import {
   TextInput,
@@ -22,6 +22,17 @@ const NuevoCliente = ({navigation, route}) => {
 
   const [alerta, setAlerta] = useState(false);
 
+  // detectar si estamos editando
+  useEffect(() => {
+    if (route.params.cliente) {
+      const {nombre, telefono, correo, empresa} = route.params.cliente; // destructuring
+      setNombre(nombre);
+      setTelefono(telefono);
+      setCorreo(correo);
+      setEmpresa(empresa);
+    }
+  }, []);
+
   const guardarCliente = async () => {
     // Validar campos
     if (nombre === '' || telefono === '' || correo === '' || empresa === '') {
@@ -31,21 +42,34 @@ const NuevoCliente = ({navigation, route}) => {
 
     // Generar el cliente
     const cliente = {
-        nombre,
-        telefono,
-        correo,
-        empresa,
+      nombre,
+      telefono,
+      correo,
+      empresa,
     };
 
     // Generar el cliente en la API
-    try {
-        if(Platform.OS === 'ios'){
-            await axios.post('http://localhost:3000/clientes', cliente);
-        }else {
-            await axios.post('http://10.0.2.2:3000/clientes', cliente);
+    // SI estamos editando o creando un cliente nuevo
+    if (route.params.cliente) {
+      // Actualizar el cliente
+      const {id} = route.params.cliente;
+      const url = `http://10.0.2.2:3000/clientes/${id}`;
+      // Solo android
+      try {
+        await axios.put(url, cliente);
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      try {
+        if (Platform.OS === 'ios') {
+          await axios.post('http://localhost:3000/clientes', cliente);
+        } else {
+          await axios.post('http://10.0.2.2:3000/clientes', cliente);
         }
-    } catch (error) {
-      console.log(error);        
+      } catch (error) {
+        console.log(error);
+      }
     }
 
     // Redireccionar a la pantalla de clientes
@@ -84,6 +108,7 @@ const NuevoCliente = ({navigation, route}) => {
           placeholder="correo@correo.com"
           onChangeText={texto => setCorreo(texto)}
           style={styles.input}
+          value={correo}
         />
         <TextInput
           label="Empresa"
